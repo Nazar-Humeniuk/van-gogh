@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Code Unlocked</title>
+    <link rel="stylesheet" href="success-style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="message">
+            <h1 class="title">Access Granted</h1>
+            <p class="text">You successfully unlocked first of four parts of code:</p>
+            <div class="code-display">
+                <span class="code-char">A</span>
+                <span class="code-char">3</span>
+                <span class="code-char">7</span>
+                <span class="code-char">K</span>
+            </div>
+            <div style="margin-top:24px">
+                <button id="open-brief" class="button">Open Agent Brief</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function(){
+            var btn = document.getElementById('open-brief');
+            if (btn) {
+                btn.addEventListener('click', function(){
+                    window.location.href = 'mystery.html';
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
+

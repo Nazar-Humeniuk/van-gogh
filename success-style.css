@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0b0f10;
+    color: #13ff7c;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    text-align: center;
+    padding: 2rem;
+}
+
+.message {
+    max-width: 600px;
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #00ff95;
+    text-shadow: 0 0 20px rgba(19, 255, 124, 0.8);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 20px rgba(19, 255, 124, 0.8);
+    }
+    50% {
+        opacity: 0.8;
+        text-shadow: 0 0 30px rgba(19, 255, 124, 1);
+    }
+}
+
+.text {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    color: #79ffb7;
+}
+
+.code-display {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.code-char {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: rgba(19, 255, 124, 0.1);
+    border: 3px solid #13ff7c;
+    border-radius: 8px;
+    color: #13ff7c;
+    text-shadow: 0 0 10px rgba(19, 255, 124, 0.8);
+    box-shadow: 0 0 20px rgba(19, 255, 124, 0.3);
+    animation: glow 2s ease-in-out infinite;
+}
+
+.code-char:nth-child(1) { animation-delay: 0s; }
+.code-char:nth-child(2) { animation-delay: 0.2s; }
+.code-char:nth-child(3) { animation-delay: 0.4s; }
+.code-char:nth-child(4) { animation-delay: 0.6s; }
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(19, 255, 124, 0.3);
+        border-color: #13ff7c;
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(19, 255, 124, 0.8);
+        border-color: #00ff95;
+    }
+}
+
+.subtext {
+    font-size: 1.1rem;
+    color: #95ffbd;
+    margin-top: 2rem;
+    font-style: italic;
+}
+
+#open-brief {
+    font-weight: 900;
+    background:#13ff7c;
+    color:#0b0f10;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+#open-brief:hover {
+    font-weight: 900;
+    background:#3cef8d;
+    color:#e9eff1;
+
+}

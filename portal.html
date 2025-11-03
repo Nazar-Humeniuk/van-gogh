@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agent Portal</title>
+    <style>
+        body { margin: 0; background: #ffffff; color: #111; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+        .wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px; }
+        .card { max-width: 720px; width: 100%; text-align: center; }
+        h1 { font-size: 2rem; margin: 0 0 10px; }
+        .subtitle { color: #444; margin: 0 0 24px; }
+        .timer { display: flex; justify-content: center; gap: 14px; margin: 14px 0 6px; }
+        .block { min-width: 92px; padding: 14px 10px; border-radius: 10px; background: #0b0f10; color: #13ff7c; border: 1px solid #13ff7c55; box-shadow: 0 0 20px #13ff7c22; }
+        .num { font-size: 2rem; font-weight: 800; letter-spacing: 1px; }
+        .label { font-size: .8rem; color: #95ffbd; margin-top: 6px; display: block; }
+        .done { color: #0b0f10; background: #13ff7c; border-color: transparent; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="card">
+            <h1>Agent Portal</h1>
+            <div id="timer" class="timer" aria-live="polite" aria-atomic="true">
+                <div class="block"><div id="d" class="num">0</div><span class="label">days</span></div>
+                <div class="block"><div id="h" class="num">0</div><span class="label">hours</span></div>
+                <div class="block"><div id="m" class="num">0</div><span class="label">minutes</span></div>
+                <div class="block"><div id="s" class="num">0</div><span class="label">seconds</span></div>
+            </div>
+            <p id="status" class="subtitle"></p>
+        </div>
+    </div>
+
+    <script>
+        function parseLocalTarget() {
+            var year = 2025, monthIndex = 10; // November (0-based)
+            var day = 4, hours = 12, minutes = 0;
+            return new Date(year, monthIndex, day, hours, minutes, 0, 0);
+        }
+
+        var target = parseLocalTarget().getTime();
+        var dEl = document.getElementById('d');
+        var hEl = document.getElementById('h');
+        var mEl = document.getElementById('m');
+        var sEl = document.getElementById('s');
+        var statusEl = document.getElementById('status');
+        var timerEl = document.getElementById('timer');
+
+        function tick() {
+            var now = Date.now();
+            var diff = target - now;
+
+            if (diff <= 0) {
+                dEl.textContent = '0';
+                hEl.textContent = '0';
+                mEl.textContent = '0';
+                sEl.textContent = '0';
+                statusEl.textContent = 'Portal is now open';
+                Array.from(timerEl.children).forEach(function(block){ block.classList.add('done'); });
+                clearInterval(intervalId);
+                return;
+            }
+
+            var seconds = Math.floor(diff / 1000);
+            var days = Math.floor(seconds / 86400); seconds -= days * 86400;
+            var hours = Math.floor(seconds / 3600); seconds -= hours * 3600;
+            var minutes = Math.floor(seconds / 60); seconds -= minutes * 60;
+
+            dEl.textContent = String(days);
+            hEl.textContent = String(hours);
+            mEl.textContent = String(minutes);
+            sEl.textContent = String(seconds);
+        }
+
+        var intervalId = setInterval(tick, 1000);
+        tick();
+    </script>
+</body>
+</html>
+
+

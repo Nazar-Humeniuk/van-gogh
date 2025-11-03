@@ -11,10 +11,10 @@
         body.classList.remove('active');
     });
 
-    // Handle click on entire text - redirect to Caesar page
+    // Handle click on entire text - redirect to access denied page
     textElement.addEventListener('click', function(e) {
         e.preventDefault();
-        window.location.href = 'caesar.html';
+        window.location.href = 'access-denied.html';
     });
 })();
 

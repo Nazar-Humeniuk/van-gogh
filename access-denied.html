@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Access Denied</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0b0f10;
+            color: #ff5c5c;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #ff5c5c;
+        }
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #ff8a8a;
+        }
+        .access-link {
+            color: #ff8a8a;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .access-link:hover {
+            color: #00ff95;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Access Denied</h1>
+        <p>Looks like you don't have right to <span class="access-link" id="access-link">access</span>. Please leave this page.</p>
+    </div>
+    <script>
+        (function() {
+            const accessLink = document.getElementById('access-link');
+            
+            accessLink.addEventListener('click', function() {
+                // Fetch the actual HTML source of this page
+                fetch(window.location.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        // Create a new window with the source code, properly formatted
+                        const sourceWindow = window.open('', '_blank');
+                        sourceWindow.document.write('<!DOCTYPE html><html><head><title>Source Code</title><style>body{background:#1e1e1e;color:#d4d4d4;font-family:monospace;padding:20px;white-space:pre-wrap;word-wrap:break-word;line-height:1.5;}</style></head><body><pre>');
+                        sourceWindow.document.write(escapeHtml(html));
+                        sourceWindow.document.write('</pre></body></html>');
+                    })
+                    .catch(err => {
+                        // Fallback: use the actual HTML content
+                        const htmlContent = document.documentElement.outerHTML;
+                        const sourceWindow = window.open('', '_blank');
+                        sourceWindow.document.write('<!DOCTYPE html><html><head><title>Source Code</title><style>body{background:#1e1e1e;color:#d4d4d4;font-family:monospace;padding:20px;white-space:pre-wrap;word-wrap:break-word;line-height:1.5;}</style></head><body><pre>');
+                        sourceWindow.document.write(escapeHtml(htmlContent));
+                        sourceWindow.document.write('</pre></body></html>');
+                    });
+            });
+            
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        })();
+    </script>
+
+
+    <!--
+        CONFIDENTIAL — FOR AUTHORIZED EYES ONLY.
+        ENTRY POINT: https://van-gogh-caesar.netlify.app/caesar.html
+        HANDLE WITH DISCRETION.
+    -->
+</body>
+</html>
+

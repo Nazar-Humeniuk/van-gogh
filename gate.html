@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Access Gate</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .gate-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .gate-container {
+            background: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 40px;
+            padding-top: 80px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .gate-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 1rem;
+        }
+        .gate-input {
+            width: 100%;
+            padding: 12px;
+            background: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            color: #333;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+        }
+        .gate-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+        .gate-button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .gate-button:hover {
+            background: #0056b3;
+        }
+        .gate-message {
+            margin-top: 15px;
+            text-align: center;
+            min-height: 20px;
+            color: #dc3545;
+            font-size: 0.9rem;
+        }
+        .gate-message.success {
+            color: #28a745;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Access Gate Overlay -->
+    <div id="gate-overlay" class="gate-overlay">
+        <div class="gate-container">
+            <h1>Access Gate</h1>
+            <form id="gate-form">
+                <div class="form-group">
+                    <label for="gate-code-input">Enter Access Code:</label>
+                    <input type="text" id="gate-code-input" class="gate-input" autocomplete="off" autofocus>
+                </div>
+                <button type="submit" class="gate-button">Verify</button>
+                <div id="gate-message" class="gate-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Content (hidden until verified) -->
+    <div id="main-content" class="hidden">
+        <div class="container">
+            <p class="text" id="text-element">
+                What are you trying to <span class="looking" id="find-link">find</span>?
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        (function() {
+            // Access code: 3013
+            // Verification method: Simple numeric comparison (different from Caesar's hash-based method)
+            const targetCode = 3013;
+            
+            // Verification function - direct numeric comparison
+            // This is simpler than the SHA-256 hash method used in caesar-script.js
+            function verifyAccessCode(input) {
+                const code = parseInt(input.trim(), 10);
+                if (isNaN(code)) {
+                    return false;
+                }
+                return code === targetCode;
+            }
+
+            const gateOverlay = document.getElementById('gate-overlay');
+            const mainContent = document.getElementById('main-content');
+            const form = document.getElementById('gate-form');
+            const codeInput = document.getElementById('gate-code-input');
+            const message = document.getElementById('gate-message');
+
+            // Check if already verified (stored in sessionStorage)
+            if (sessionStorage.getItem('gate-verified') === 'true') {
+                gateOverlay.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+            }
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const enteredCode = codeInput.value.trim();
+                
+                if (verifyAccessCode(enteredCode)) {
+                    // Success - hide gate and show content
+                    message.textContent = 'Access granted.';
+                    message.className = 'gate-message success';
+                    sessionStorage.setItem('gate-verified', 'true');
+                    
+                    setTimeout(function() {
+                        gateOverlay.classList.add('hidden');
+                        mainContent.classList.remove('hidden');
+                    }, 500);
+                } else {
+                    message.textContent = 'Invalid code. Access denied.';
+                    message.className = 'gate-message';
+                    codeInput.value = '';
+                    codeInput.focus();
+                }
+            });
+
+            // Clear message on input
+            codeInput.addEventListener('input', function() {
+                if (message.textContent) {
+                    message.textContent = '';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
